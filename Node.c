@@ -26,39 +26,6 @@ void insert_node_cmd(pnode *head) {
     free(tmp);
 }
 
-void addEdge(pnode *head, int id, int w, int end) {
-    pnode *tmp = (pnode *) malloc(
-            sizeof(node));
-    *tmp = *head;
-    while ((*tmp)->node_num != id) {
-        (*tmp) = (*tmp)->next;
-    }
-    pedge e = (pedge) malloc(
-            sizeof(edge));
-    if ((*tmp)->edges != NULL) {
-        while ((*tmp)->edges->next != NULL) {
-            (*tmp)->edges->next = (*tmp)->edges->next->next;
-        }
-        e->weight = w;
-        (*tmp)->edges->next = e;
-        e->next = NULL;
-    } else {
-        e->weight = w;
-        (*tmp)->edges = e;
-        e->next = NULL;
-    }
-    *tmp = *head;
-    while ((*tmp)->node_num != end) {
-        (*tmp) = (*tmp)->next;
-    }
-    while (e->next != NULL) {
-        e = e->next;
-    }
-    e->endpoint = (*tmp);
-    free(tmp);
-    //free(e);
-}
-
 void B(pnode *head, int id, int w, int end) {
     pnode *tmp = (pnode *) malloc(
             sizeof(node));
@@ -125,22 +92,21 @@ void deleteGraph_cmd(pnode *head) {
 void delete(pnode *head, int id) {
     pnode *tmp = (pnode *) malloc(
             sizeof(node));
+    *tmp = *head;
     if (*tmp == NULL) {
         printf("There is no place");
         exit(1);
     }
-    *tmp = *head;
     while ((*tmp)->node_num != id) {
         (*tmp) = (*tmp)->next;
     }
     while ((*head)->edges != NULL) {
         free((*head)->edges);
-        //free((*head)->edges->endpoint);
         (*head)->edges = (*head)->edges->next;
     }
     (*head) = (*tmp);
     free(tmp);
-    free((*tmp)->edges);
+    //free((*tmp)->edges);
 }
 
 void printGraph_cmd(pnode head) {
@@ -167,7 +133,8 @@ void printGraph_cmd(pnode head) {
 int main() {
     pnode n1 = (pnode) malloc(sizeof(node));
     pnode *head = &n1;
-    char *ch = "A 4 n 0 2 5 3 3 n 2 0 4 1 1 n 1 3 5 0 2 B 4 0 4 2 1 S 0 3";
+    char *ch = "A 4 n 0 2 5 3 3 n 2 0 4 1 1 n 1 3 7 0 2 D 0 B 4 0 1 2 4";
+    //scanf("%s", ch);
     int i = 0;
     while (1) {
         if (ch[i] == 'A') {
@@ -209,7 +176,7 @@ int main() {
         if (ch[i] == 'D') {
             i = i + 2;
             int id = (int) ch[i] - 48;
-            delete_node_cmd(head); //add ID
+            //delete(head, id);
             i = i + 2;
         }
         if (ch[i] == 'S') {
@@ -218,7 +185,7 @@ int main() {
             i = i + 4;
         }
         if (ch[i] == '\n' || i >= strlen(ch)) {
-            //deleteGraph_cmd(head);
+            deleteGraph_cmd(head);
             break;
         }
     }
@@ -235,9 +202,8 @@ int main() {
     //deleteGraph_cmd(head);
     //free(n1);
     //addEdge(head, 0, 2, 4);
-    printf("%d", shortestPath(head, 0, 4));
+    //printf("%d", shortestPath(head, 1, 3));
+    //delete(head, 0);
     //deleteGraph_cmd(head);
-    delete(head, 0);
-    deleteGraph_cmd(head);
     free(n1);
 }
