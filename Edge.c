@@ -1,5 +1,6 @@
 #include <malloc.h>
 #include "graph.h"
+//#include "Node.c"
 
 void addEdge(pnode *head, int id, int w, int end) {
     pnode *tmp = (pnode *) malloc(
