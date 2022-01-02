@@ -1,25 +1,36 @@
 #include <stdio.h>
 #include <ctype.h>
-#include "Node.c"
-#include "Edge.c"
-#include "Algo.c"
+#include <malloc.h>
+#include "graph.h"
 
 
 int caseA(pnode *head) {
     int numberOfNodes;
     scanf("%d", &numberOfNodes);
-    int CheckOrWeight;
-    scanf("%d", &CheckOrWeight);
+    char CheckOrWeight;
+    scanf("%c", &CheckOrWeight);
+    if(CheckOrWeight ==' '){
+        scanf("%c", &CheckOrWeight);
+    }
     if(CheckOrWeight == 'n') {
         int NodeID;
         scanf("%d", &NodeID);
+        if(NodeID ==' '){
+            scanf("%d", &NodeID);
+        }
         insert_node_cmd(head);
         while(isdigit(CheckOrWeight)){
-            scanf("%d", &CheckOrWeight);
+            int weight = CheckOrWeight - '0';
             int dest;
             scanf("%d", &dest);
-            addEdge(head,NodeID, CheckOrWeight, dest);
-            scanf("%d", &CheckOrWeight);
+            if(dest ==' '){
+                scanf("%d", &dest);
+            }
+            addEdge(head,NodeID, weight, dest);
+            scanf("%c", &CheckOrWeight);
+            if(dest ==' '){
+                scanf("%c", &CheckOrWeight);
+            }
         }
         return CheckOrWeight;
     }
@@ -28,14 +39,26 @@ int caseA(pnode *head) {
 int caseB(pnode *head) {
     char NodeID;
     scanf("%c", &NodeID);
+    if(NodeID ==' '){
+        scanf("%d", &NodeID);
+    }
     while(isdigit(NodeID)) {
         int id = NodeID - '0';
         int Dest;
         scanf("%d", &Dest);
+        if(Dest ==' '){
+            scanf("%d", &Dest);
+        }
         int Weight;
         scanf("%d", &Weight);
+        if(Weight ==' '){
+            scanf("%d", &Weight);
+        }
         B(head, id, Weight, Dest);
         scanf("%c", &NodeID);
+        if(NodeID ==' '){
+            scanf("%d", &NodeID);
+        }
     }
     return NodeID;
 }
@@ -45,7 +68,7 @@ int caseD(pnode *head) {
     scanf("%c", &NodeID);
     while(isdigit(NodeID)) {
         int id = NodeID - '0';
-        delete(head, id);
+        delete_node_cmd(head, id);
         scanf("%c", &NodeID);
     }
     return NodeID;
@@ -75,7 +98,7 @@ int caseT(pnode *head){
         scanf("%d", &NodeID);
         Nodes[i] = NodeID;
     }
-    int res = tsp(head, Nodes, HowLong);
+    int res = TSP_cmd(head, Nodes, HowLong);
     printf("TSP shortest path: %d\n", res);
     char NextChar;
     scanf("%c", &NextChar);
@@ -88,7 +111,7 @@ int main() {
     pnode *head = &n1;
     char input;
     scanf("%c", &input);
-    while (input != 'E') {
+//    while (input != 'E') {
         switch (input) {
             case 'A':
                 input = caseA(head);
@@ -101,6 +124,6 @@ int main() {
             case 'T':
                 input = caseT(head);
         }
-    }
+//    }
 }
 

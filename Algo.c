@@ -4,7 +4,7 @@
 #include <limits.h>
 #include "graph.h"
 
-int tsp = INT_MAX;
+int res = INT_MAX;
 
 int shortestPath(pnode *head, int src, int dest) {
     int dist[(*head)->size];
@@ -95,35 +95,31 @@ void swap(int *x, int *y) {
     *y = temp;
 }
 
-void permute(pnode *head, int *a, int start, int end) {
-    if (start == end){
-        int sum = 0;
-        int j=1;
-        for(int i=0; i<end-1; i++){
-            if(j<=end){
+void check(pnode *head, int *a, int from, int dest) {
+    if (from == dest){
+        int sum = 0, j=1;
+        for(int i=0; i<dest-1; i++){
+            if(j<=dest){
                 sum += shortestPath(head, i, j);
                 j++;
             }
         }
-        if(sum<tsp){
-            tsp = sum;
+        if(sum<res){
+            res = sum;
         }
     }
-
     else{
-        for(int i = start; i <= end; i++){
-            swap((a+start), (a+i));
-            permute(head, a, start+1, end);
-            swap((a+start), (a+i)); //backtrack
+        for(int i = from; i <= dest; i++){
+            swap((a+from), (a+i));
+           check(head, a, from+1, dest);
+            swap((a+from), (a+i)); //backtrack
         }
     }
 }
 
-void TSP(pnode *head) {
-    int len = 3;
-    pnode *temp = head;
-    int arr[3] = {2, 1, 3};
-    tsp = INT_MAX;
-    permute(head, arr, 0, len-1);
-    printf("TSP shortest path: %d\n", tsp);
+int TSP_cmd(pnode *head, int array [], int size) {
+    int len = size;
+    res = INT_MAX;
+    check(head, array, 0, len-1);
+    return res;
 }
