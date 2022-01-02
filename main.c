@@ -4,26 +4,6 @@
 #include "Edge.c"
 #include "Algo.c"
 
-int main() {
-    pnode n1 = (pnode) malloc(sizeof(node));
-    pnode *head = &n1;
-    char input;
-    scanf("%c", &input);
-    while (1) {
-        switch (input) {
-            case 'A':
-                input = caseA(*head);
-            case 'B':
-                input = caseB(head);
-            case 'D':
-                input = caseD(head);
-            case 'S':
-                input = caseS(head);
-            case 'T':
-                input = caseT(head);
-        }
-    }
-}
 
 int caseA(pnode *head) {
     int numberOfNodes;
@@ -79,7 +59,8 @@ int caseS(pnode *head){
         scanf("%c", &Dest);
         int start = Start - '0';
         int dest =  Dest - '0';
-        shortestPath(head,start,dest);
+        int res = shortestPath(head,start,dest);
+        printf("Dijsktra shortest path: %d\n", res);
         scanf("%c", &Start);
     }
     return Start;
@@ -94,9 +75,32 @@ int caseT(pnode *head){
         scanf("%d", &NodeID);
         Nodes[i] = NodeID;
     }
-    tsp(head, Nodes, HowLong);
+    int res = tsp(head, Nodes, HowLong);
+    printf("TSP shortest path: %d\n", res);
     char NextChar;
     scanf("%c", &NextChar);
     return NextChar;
+}
+
+
+int main() {
+    pnode n1 = (pnode) malloc(sizeof(node));
+    pnode *head = &n1;
+    char input;
+    scanf("%c", &input);
+    while (input != 'E') {
+        switch (input) {
+            case 'A':
+                input = caseA(head);
+            case 'B':
+                input = caseB(head);
+            case 'D':
+                input = caseD(head);
+            case 'S':
+                input = caseS(head);
+            case 'T':
+                input = caseT(head);
+        }
+    }
 }
 
