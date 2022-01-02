@@ -1,6 +1,3 @@
-//
-// Created by geron on 30/12/2021.
-//
 #include <stdio.h>
 #include <ctype.h>
 #include "Node.c"
