@@ -1,13 +1,18 @@
 #include <malloc.h>
 #include "graph.h"
-//#include "Node.c"
+
 
 void addEdge(pnode *head, int id, int w, int end) {
     pnode *tmp = (pnode *) malloc(
             sizeof(node));
     *tmp = *head;
     while ((*tmp)->node_num != id) {
+        if((*tmp)->next != NULL) {
+            (*tmp) = (*tmp)->next;
+        }else{
+        insert_node_cmd(head);
         (*tmp) = (*tmp)->next;
+        }
     }
     pedge e = (pedge) malloc(
             sizeof(edge));
@@ -23,7 +28,7 @@ void addEdge(pnode *head, int id, int w, int end) {
         (*tmp)->edges = e;
         e->next = NULL;
     }
-    *tmp = *head;
+    *tmp = (*head);
     while ((*tmp)->node_num != end) {
         (*tmp) = (*tmp)->next;
     }
@@ -32,5 +37,5 @@ void addEdge(pnode *head, int id, int w, int end) {
     }
     e->endpoint = (*tmp);
     free(tmp);
-    //free(e);
+    free(e);
 }

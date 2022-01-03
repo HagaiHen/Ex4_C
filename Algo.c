@@ -46,49 +46,6 @@ int shortestPath(pnode *head, int src, int dest) {
     return dist[dest];
 }
 
-//int tsp (pnode *head, int listofnode [], int size) {
-//    int dist[size][size];
-//    for(int i=0; i< size; i++){                         //build a matrix of dijestra
-//        for(int j=0; j<size; j++){
-//            if(i != j){
-//                dist[i][j]= shortestPath(head, listofnode[i], listofnode[j]);
-//            }else{
-//                dist[i][j]=inf;
-//            }
-//        }
-//    }
-//    int shortest = inf, sumofweight=0 ,min = inf, count=0;
-//    int tempshortestarray [size];
-//    int shortestarray [size];
-//    for(int i=0; i<(size); i++){
-//        for(int j=0; j<(size); j++){
-//                if(dist[i][j] < min){
-//                    min = dist[i][j];
-//                    tempshortestarray[i] = j;
-//                    sumofweight = sumofweight+dist[i][j];
-//                }
-//        }
-//        for(int j=0; j<(size); j++){
-//            if(tempshortestarray[i] != 0 || tempshortestarray[i] != inf) {
-//                count++;
-//            }
-//        }
-//        min=inf;
-//        if(shortest>sumofweight && count == size) {
-//            shortest = sumofweight;
-//            for(int j=0; j<(size); j++){
-//                shortestarray[j] = tempshortestarray[j];
-//                tempshortestarray[i] = 0;
-//            }
-//        }
-//        for(int j=0; j<(size); j++){
-//            tempshortestarray[i] = 0;
-//        }
-//    }
-//    int *p = shortestarray;
-//    return p;
-//}
-
 void swap(int *x, int *y) {
     int temp = *x;
     *x = *y;

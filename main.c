@@ -1,75 +1,113 @@
-#include <stdio.h>
-#include <ctype.h>
-#include <malloc.h>
 #include "graph.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
 
 
 int caseA(pnode *head) {
-    int numberOfNodes;
+    int numberOfNodes = 0;
     scanf("%d", &numberOfNodes);
-    char CheckOrWeight;
-    scanf("%c", &CheckOrWeight);
-    if(CheckOrWeight ==' '){
-        scanf("%c", &CheckOrWeight);
+    if(numberOfNodes ==' '){
+        scanf("%d", &numberOfNodes);
     }
-    if(CheckOrWeight == 'n') {
-        int NodeID;
+    for(int i=0; i<numberOfNodes*3; i++){
+        insert_node_cmd(head);
+    }
+    char NextNodeOrDest = ' ';
+    scanf("%c", &NextNodeOrDest);
+    if(NextNodeOrDest ==' '){
+        scanf("%c", &NextNodeOrDest);
+    }
+    while(NextNodeOrDest == 'n') {
+        int NodeID = 0;
         scanf("%d", &NodeID);
         if(NodeID ==' '){
             scanf("%d", &NodeID);
         }
-        insert_node_cmd(head);
-        while(isdigit(CheckOrWeight)){
-            int weight = CheckOrWeight - '0';
-            int dest;
-            scanf("%d", &dest);
-            if(dest ==' '){
-                scanf("%d", &dest);
+        scanf("%c", &NextNodeOrDest);
+        if(NextNodeOrDest ==' '){
+            scanf("%c", &NextNodeOrDest);
+        }
+        if(NextNodeOrDest<=90 && NextNodeOrDest>65){
+            return NextNodeOrDest;
+        }
+        while(isdigit(NextNodeOrDest)){
+            int destint = NextNodeOrDest - '0';
+            char weight = 0;
+            scanf("%c",&weight);
+            if(weight ==' '){
+                scanf("%c", &weight);
             }
-            addEdge(head,NodeID, weight, dest);
-            scanf("%c", &CheckOrWeight);
-            if(dest ==' '){
-                scanf("%c", &CheckOrWeight);
+            int w = weight -'0';
+            addEdge(head,NodeID, w, destint);
+            scanf("%c", &NextNodeOrDest);
+            if(NextNodeOrDest ==' '){
+                scanf("%c", &NextNodeOrDest);
             }
         }
-        return CheckOrWeight;
-    }
+    }return NextNodeOrDest;
 }
 
 int caseB(pnode *head) {
+    int count = 0;
+    pnode *tmp = (pnode *) malloc(
+            sizeof(node));
+    *tmp = *head;
     char NodeID;
     scanf("%c", &NodeID);
     if(NodeID ==' '){
-        scanf("%d", &NodeID);
+        scanf("%c", &NodeID);
     }
-    while(isdigit(NodeID)) {
-        int id = NodeID - '0';
-        int Dest;
-        scanf("%d", &Dest);
-        if(Dest ==' '){
-            scanf("%d", &Dest);
+    int id = NodeID - '0';
+
+    while(*tmp != NULL){
+        if(id == (*tmp)->node_num){
+            while ((*tmp)->edges != NULL) {
+                free((*tmp)->edges);
+                (*tmp)->edges = (*tmp)->edges->next;
+            }
+            break;
         }
+        *tmp = (*tmp)->next;
+    }
+    int Dest;
+    while(isdigit(NodeID)) {
+        if(count == 0) {
+            scanf("%d", &Dest);
+            if (Dest == ' ') {
+                scanf("%d", &Dest);
+            }
+        }else{
+            int temp = NodeID - '0';
+            Dest = temp;}
         int Weight;
         scanf("%d", &Weight);
         if(Weight ==' '){
             scanf("%d", &Weight);
         }
-        B(head, id, Weight, Dest);
+        addEdge(head, id, Weight, Dest);
         scanf("%c", &NodeID);
         if(NodeID ==' '){
-            scanf("%d", &NodeID);
-        }
+            scanf("%c", &NodeID);
+        }count++;
     }
+    free(tmp);
     return NodeID;
 }
 
 int caseD(pnode *head) {
     char NodeID;
     scanf("%c", &NodeID);
+    if(NodeID ==' '){
+        scanf("%c", &NodeID);
+    }
     while(isdigit(NodeID)) {
         int id = NodeID - '0';
         delete_node_cmd(head, id);
         scanf("%c", &NodeID);
+        if(NodeID ==' '){
+            scanf("%c", &NodeID);
+        }
     }
     return NodeID;
 }
@@ -77,14 +115,23 @@ int caseD(pnode *head) {
 int caseS(pnode *head){
     char Start;
     scanf("%c", &Start);
+    if(Start ==' '){
+        scanf("%c", &Start);
+    }
     while(isdigit(Start)){
+        int from = Start - '0';
         char Dest;
         scanf("%c", &Dest);
-        int start = Start - '0';
-        int dest =  Dest - '0';
-        int res = shortestPath(head,start,dest);
+        if(Dest ==' '){
+            scanf("%c", &Dest);
+        }
+        int destint =  Dest - '0';
+        int res = shortestPath(head,from, destint);
         printf("Dijsktra shortest path: %d\n", res);
         scanf("%c", &Start);
+        if(Start ==' '){
+            scanf("%c", &Start);
+        }
     }
     return Start;
 }
@@ -102,28 +149,36 @@ int caseT(pnode *head){
     printf("TSP shortest path: %d\n", res);
     char NextChar;
     scanf("%c", &NextChar);
+    if(NextChar ==' '){
+        scanf("%c", &NextChar);
+    }
     return NextChar;
 }
 
 
-int main() {
+int main(void) {
     pnode n1 = (pnode) malloc(sizeof(node));
     pnode *head = &n1;
-    char input;
+    char input = 0;
     scanf("%c", &input);
-//    while (input != 'E') {
+    while (input != 'E') {
         switch (input) {
             case 'A':
                 input = caseA(head);
+                break;
             case 'B':
                 input = caseB(head);
+                break;
             case 'D':
                 input = caseD(head);
+                break;
             case 'S':
                 input = caseS(head);
+                break;
             case 'T':
                 input = caseT(head);
+                break;
         }
-//    }
+    }
+    free(n1);
 }
-
