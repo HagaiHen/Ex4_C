@@ -10,7 +10,7 @@ int caseA(pnode *head) {
     if(numberOfNodes ==' '){
         scanf("%d", &numberOfNodes);
     }
-    for(int i=0; i<numberOfNodes*3; i++){
+    for(int i=0; i<numberOfNodes*4; i++){
         insert_node_cmd(head);
     }
     char NextNodeOrDest = ' ';
@@ -45,7 +45,8 @@ int caseA(pnode *head) {
                 scanf("%c", &NextNodeOrDest);
             }
         }
-    }return NextNodeOrDest;
+    }
+    return NextNodeOrDest;
 }
 
 int caseB(pnode *head) {

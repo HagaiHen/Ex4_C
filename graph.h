@@ -42,8 +42,7 @@ void swap(int *x, int *y);
 int dequeue(struct Queue *queue);
 void enqueue(struct Queue *queue, int item);
 int isFull(struct Queue *queue);
-//int front(struct Queue *queue);
-//int rear(struct Queue *queue);
+
 int isEmpty(struct Queue *queue);
 void addEdge(pnode *head, int id, int w, int end);
 #endif

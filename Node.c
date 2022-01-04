@@ -20,38 +20,12 @@ void insert_node_cmd(pnode *head) {
                 sizeof(node));
         (*tmp)->next = n;
         n->node_num = (*tmp)->node_num + 1;
-        free(n);
+//        free(n);
     } else {
         (*tmp)->node_num = size;
     }
-    free(tmp);
+//    free(tmp);
 }
-
-void B(pnode *head, int id, int w, int end) {
-    pnode *tmp = (pnode *) malloc(
-            sizeof(node));
-    *tmp = *head;
-    while ((*tmp)->node_num != id && (*tmp)->next != NULL) {
-        (*tmp) = (*tmp)->next;
-    }
-    if ((*tmp)->next == NULL) {
-        if ((*tmp)->node_num == id) {
-            addEdge(head, id, w, end);
-            (*head)->size++;
-        } else {
-            pnode n = (pnode) malloc(
-                    sizeof(node));
-            (*tmp)->next = n;
-            n->node_num = (*tmp)->node_num + 1;
-            addEdge(head, id, w, end);
-        }
-    } else {
-        (*tmp)->edges = NULL;
-        addEdge(head, id, w, end);
-    }
-    free(tmp);
-}
-
 
 void deleteGraph_cmd(pnode *head) {
     pnode *tmp = (pnode *) malloc(
@@ -90,8 +64,25 @@ void delete_node_cmd(pnode *head, int id){
     (*prv)->next = *tmp;
 //    free((*tmp)->node_num);
 //    (*head) = (*tmp);
-    free(tmp);
+    *tmp = *head;
     //free((*tmp)->edges);
+
+    pedge *ptmp = (pedge *) malloc(
+            sizeof(edge));
+    *ptmp = (*head)->edges;
+    while((*tmp) != NULL){
+        *ptmp = (*tmp)->edges;
+        while((*ptmp) != NULL){
+            if((*ptmp)->endpoint->node_num == id){
+                if((*ptmp)->next == NULL){
+                    free((*ptmp)->endpoint);
+                }
+                if((*ptmp)->next != NULL){
+                    (*tmp)->edges = (*ptmp)->next;
+                }
+            } *ptmp = (*head)->edges->next;
+        }(*tmp)= (*tmp)->next;
+    }
 }
 
 void printGraph_cmd(pnode head) {
