@@ -6,43 +6,53 @@
 
 int res = INT_MAX;
 
-int shortestPath(pnode *head, int src, int dest) {
-    int dist[(*head)->size];
-    int visited[(*head)->size];
-    for (int i = 0; i < (*head)->size; i++) {
+int shortestPath(pnode *head, int src, int dest, int max) {
+    int dist[max+1];
+    int visited[max+1];
+    for (int i = 0; i < max+ 1; i++) {
         dist[i] = inf;
         visited[i] = 0;
     }
     dist[src] = 0;
     struct Queue *queue = createQueue((*head)->size);
     enqueue(queue, src);
-    pnode *tmp = (pnode *) malloc(
-            sizeof(node));
-    *tmp = *head;
+    pnode tmp = *head;
+    pedge p;
     while (!(isEmpty(queue))) {
         int curr = dequeue(queue);
         if (visited[curr] == 0) {
-            while ((*tmp)->node_num != curr) {
-                (*tmp) = (*tmp)->next;
+            if((tmp)->node_num == curr){
+                p = (tmp)->edges;
+            }else {
+                while ((tmp)->node_num != curr) {
+                    if ((tmp)->next != NULL) {
+                        (tmp) = (tmp)->next;
+                        p = (tmp)->edges;
+                    } else {
+                        p = NULL;
+                        break;
+                    }
+
+                }
             }
-            pedge e = (*tmp)->edges;
-            while ((*tmp)->edges != NULL) {
-                int distance = dist[curr] + (*tmp)->edges->weight;
-                int target = (*tmp)->edges->endpoint->node_num;
+//            pedge e = (*tmp)->edges;
+            while (p != NULL) {
+                int distance = dist[curr] + p->weight;
+                int target = p->endpoint->node_num;
                 if (distance < dist[target]) {
                     dist[target] = distance;
                     enqueue(queue, target);
                 }
-                (*tmp)->edges = (*tmp)->edges->next;
+                p = p->next;
             }
-            (*tmp)->edges = e;
-            (*tmp) = (*head);
+//            (*tmp)->edges = p;
+            (tmp) = (*head);
         }
         visited[curr] = 1;
+
     }
-    free(tmp);
-    free(queue);
     free(queue->array);
+    free(queue);
     return dist[dest];
 }
 
@@ -52,12 +62,12 @@ void swap(int *x, int *y) {
     *y = temp;
 }
 
-void check(pnode *head, int *a, int from, int dest) {
+void check(pnode *head, int *a, int from, int dest, int max) {
     if (from == dest){
         int sum = 0, j=1;
         for(int i=0; i<dest-1; i++){
             if(j<=dest){
-                sum += shortestPath(head, i, j);
+                sum += shortestPath(head, i, j, max);
                 j++;
             }
         }
@@ -68,15 +78,15 @@ void check(pnode *head, int *a, int from, int dest) {
     else{
         for(int i = from; i <= dest; i++){
             swap((a+from), (a+i));
-           check(head, a, from+1, dest);
+           check(head, a, from+1, dest, max);
             swap((a+from), (a+i)); //backtrack
         }
     }
 }
 
-int TSP_cmd(pnode *head, int array [], int size) {
+int TSP_cmd(pnode *head, int array [], int size, int max) {
     int len = size;
     res = INT_MAX;
-    check(head, array, 0, len-1);
+    check(head, array, 0, len-1, max);
     return res;
 }

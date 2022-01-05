@@ -33,11 +33,12 @@ void insert_node_cmd(pnode *head);
 void delete_node_cmd(pnode *head, int id);
 
 void printGraph_cmd(pnode head);
+int getmaxid (pnode *head);
 void deleteGraph_cmd(pnode* head);
-int shortestPath(pnode* head, int src, int dest);
-int TSP_cmd(pnode *head,int array [],int size);
+int shortestPath(pnode* head, int src, int dest, int max);
+int TSP_cmd(pnode *head,int array [],int size, int max);
 struct Queue *createQueue(int capacity);
-void check(pnode *head, int *a, int start, int end);
+void check(pnode *head, int *a, int start, int end, int max);
 void swap(int *x, int *y);
 int dequeue(struct Queue *queue);
 void enqueue(struct Queue *queue, int item);

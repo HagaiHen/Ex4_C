@@ -10,7 +10,7 @@ int caseA(pnode *head) {
     if(numberOfNodes ==' '){
         scanf("%d", &numberOfNodes);
     }
-    for(int i=0; i<numberOfNodes*4; i++){
+    for(int i=0; i<10; i++){
         insert_node_cmd(head);
     }
     char NextNodeOrDest = ' ';
@@ -60,7 +60,6 @@ int caseB(pnode *head) {
         scanf("%c", &NodeID);
     }
     int id = NodeID - '0';
-
     while(*tmp != NULL){
         if(id == (*tmp)->node_num){
             while ((*tmp)->edges != NULL) {
@@ -127,7 +126,14 @@ int caseS(pnode *head){
             scanf("%c", &Dest);
         }
         int destint =  Dest - '0';
-        int res = shortestPath(head,from, destint);
+        pnode tmp = *head;
+        int max =0;
+        while(tmp !=NULL){
+            if(tmp->node_num > max){
+                max = tmp->node_num;
+            } tmp = tmp->next;
+        }
+        int res = shortestPath(head,from, destint, max);
         printf("Dijsktra shortest path: %d\n", res);
         scanf("%c", &Start);
         if(Start ==' '){
@@ -146,7 +152,14 @@ int caseT(pnode *head){
         scanf("%d", &NodeID);
         Nodes[i] = NodeID;
     }
-    int res = TSP_cmd(head, Nodes, HowLong);
+    pnode tmp = *head;
+    int max =0;
+    while(tmp !=NULL){
+        if(tmp->node_num > max){
+            max = tmp->node_num;
+        } tmp = tmp->next;
+    }
+    int res = TSP_cmd(head, Nodes, HowLong, max);
     printf("TSP shortest path: %d\n", res);
     char NextChar;
     scanf("%c", &NextChar);
@@ -162,7 +175,7 @@ int main(void) {
     pnode *head = &n1;
     char input = 0;
     scanf("%c", &input);
-    while (input != 'E') {
+    while (isupper(input)) {
         switch (input) {
             case 'A':
                 input = caseA(head);

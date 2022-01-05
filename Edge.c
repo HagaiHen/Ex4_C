@@ -4,6 +4,8 @@
 void addEdge(pnode *head, int id, int w, int end) {
     pnode *tmp = (pnode *) malloc(
             sizeof(node));
+    pedge e = (pedge) malloc(
+            sizeof(edge));
     *tmp = *head;
     while ((*tmp)->node_num != id) {
         if((*tmp)->next != NULL) {
@@ -13,8 +15,6 @@ void addEdge(pnode *head, int id, int w, int end) {
             (*tmp) = (*tmp)->next;
         }
     }
-    pedge e = (pedge) malloc(
-            sizeof(edge));
     if ((*tmp)->edges != NULL) {
         while ((*tmp)->edges->next != NULL) {
             (*tmp)->edges->next = (*tmp)->edges->next->next;
@@ -36,5 +36,5 @@ void addEdge(pnode *head, int id, int w, int end) {
     }
     e->endpoint = (*tmp);
     free(tmp);
-//    free(e);
+    free(e);
 }
