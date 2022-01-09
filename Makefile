@@ -1,31 +1,27 @@
 CC=gcc
-FLAGS= -Wall -g
+FLAGS = -Wall -g
 
-#make all
-all: graph
+all: graph library
 
-.PHONY: clean
-#make clean
-clean:
-	rm -f *.o *.a *.so
 
-graph: graph.o main.o
-	$(CC) $(FLAGS) -o Edge.c Node.c Queue.c main.c
+graph: main.o graph.h lib.a
+	$(CC) $(FLAGS) -o graph main.o lib.a
 
-main.o: main.c
+library: lib.a
+
+main.o: main.c graph.h
 	$(CC) $(FLAGS) -c main.c
 
-Node.o: Node.c
-	$(CC) $(FLAGS) -c Node.c
-
-Edge.o: Edge.c
-	$(CC) $(FLAGS) -c Edge.o
+GRAPH.o: GRAPH.c Queue.c
+	$(CC) $(FLAGS) -c GRAPH.c
 
 Queue.o: Queue.c
-	$(CC) $(FLAGS) -c Queue.c
+	$(CC) $(FLAGS) -c Qeueu.c
 
-Algo.o: Algo.c
-	$(CC) $(FLAGS) -c Algo.c
+lib.a: GRAPH.o
+	ar -rcs lib.a GRAPH.o
 
-graph.o: graph.h Edge.o Node.o Queue.o Algo.o
-	$(CC) $(FLAGS) -c Algo.c
+.PHONY: clean all
+#make clean
+clean:
+	rm -f *.o *.a graph
