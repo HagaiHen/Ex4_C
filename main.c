@@ -175,7 +175,7 @@ int main(void) {
     pnode *head = &n1;
     char input = 0;
     scanf("%c", &input);
-    while (isupper(input)) {
+    while (1) {
         switch (input) {
             case 'A':
                 input = caseA(head);
